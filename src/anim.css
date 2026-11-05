@@ -1,0 +1,89 @@
+/* ---------- Animations ---------- */
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes pop { 50% { transform: scale(1.03); } }
+@keyframes shake { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+@keyframes shimmer { to { background-position: -200% 0; } }
+@keyframes float { 50% { transform: translateY(-6px); } }
+
+/* page entrance */
+.badge { animation: rise 0.6s ease both; }
+h1 { animation: rise 0.7s 0.08s ease both; }
+.tagline { animation: rise 0.7s 0.16s ease both; }
+.tabs { animation: rise 0.6s 0.24s ease both; }
+.panel { animation: rise 0.6s 0.32s ease both; }
+.logo .dot { display: inline-block; animation: float 2.4s ease-in-out infinite; }
+
+/* results */
+.output, .fc { animation: rise 0.45s ease both; }
+.q { animation: rise 0.45s ease both; }
+.q:nth-child(2) { animation-delay: 0.06s; }
+.q:nth-child(3) { animation-delay: 0.12s; }
+.q:nth-child(4) { animation-delay: 0.18s; }
+.q:nth-child(5) { animation-delay: 0.24s; }
+.q:nth-child(n+6) { animation-delay: 0.3s; }
+.history-item { animation: rise 0.4s ease both; }
+.history-item:nth-child(3) { animation-delay: 0.05s; }
+.history-item:nth-child(4) { animation-delay: 0.1s; }
+.history-item:nth-child(n+5) { animation-delay: 0.15s; }
+
+/* interactions */
+.tab, .run, .choice, .icon-btn { transition: transform 0.15s, background 0.2s, border-color 0.2s, box-shadow 0.2s; }
+.tab:active, .run:active, .choice:active { transform: scale(0.97); }
+.icon-btn:hover { transform: rotate(20deg); }
+.run:disabled {
+  background: linear-gradient(90deg, var(--amber), #fff4, var(--amber));
+  background-size: 200% 100%;
+  animation: shimmer 1.2s linear infinite;
+}
+.choice.correct { animation: pop 0.35s; }
+.choice.wrong { animation: shake 0.35s; }
+.score { animation: pop 0.5s; }
+.score .link { margin-left: 16px; }
+
+/* flashcards */
+.fc { margin-top: 14px; perspective: 1000px; }
+.fc-count { margin-bottom: 8px; color: var(--muted); font-size: 0.85rem; text-align: center; }
+.fc-card {
+  position: relative;
+  height: 220px;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+.fc-card.flipped { transform: rotateY(180deg); }
+.fc-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+  font-size: 1.15rem;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  backface-visibility: hidden;
+}
+.fc-front { font-family: "Fraunces", Georgia, serif; font-size: 1.4rem; }
+.fc-back { transform: rotateY(180deg); border-color: var(--amber); }
+.fc-actions { display: flex; justify-content: center; gap: 12px; margin-top: 14px; }
+.fc-actions .link { margin: 0; padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; }
+.fc-hint { margin: 10px 0 0; text-align: center; color: var(--muted); font-size: 0.8rem; }
+
+/* ---------- Smooth light/dark switch ---------- */
+/* Registering the colors lets the browser animate them, gradients included. */
+@property --bg { syntax: "<color>"; inherits: true; initial-value: #0f1226; }
+@property --bg-2 { syntax: "<color>"; inherits: true; initial-value: #171b3a; }
+@property --card { syntax: "<color>"; inherits: true; initial-value: #1c2147; }
+@property --line { syntax: "<color>"; inherits: true; initial-value: #2b3163; }
+@property --text { syntax: "<color>"; inherits: true; initial-value: #eef0ff; }
+@property --muted { syntax: "<color>"; inherits: true; initial-value: #9aa0cf; }
+
+:root {
+  transition: --bg 0.5s ease, --bg-2 0.5s ease, --card 0.5s ease, --line 0.5s ease, --text 0.5s ease, --muted 0.5s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
