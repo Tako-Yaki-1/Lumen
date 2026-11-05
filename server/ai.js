@@ -128,7 +128,7 @@ export async function handleAI(req, res, env) {
   }
 
   try {
-    const body = JSON.parse(await readBody(req));
+    const body = req.body !== undefined ? (typeof req.body === "string" ? JSON.parse(req.body) : req.body) : JSON.parse(await readBody(req));
     const text = String(body.text || "").trim();
     if (!text) return sendJSON(res, 400, { error: "Please enter some text first." });
 
